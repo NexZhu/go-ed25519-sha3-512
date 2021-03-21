@@ -2,19 +2,20 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package ed25519
+package ed25519_sha3_512
 
 import (
 	"bufio"
 	"bytes"
 	"compress/gzip"
 	"crypto"
-	"crypto/ed25519/internal/edwards25519"
 	"crypto/rand"
 	"encoding/hex"
 	"os"
 	"strings"
 	"testing"
+
+	"github.com/nexzhu/go-ed25519-sha3-512/internal/edwards25519"
 )
 
 type zeroReader struct{}

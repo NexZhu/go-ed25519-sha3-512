@@ -10,7 +10,7 @@
 // representation includes a public key suffix to make multiple signing
 // operations with the same key more efficient. This package refers to the RFC
 // 8032 private key as the “seed”.
-package ed25519
+package ed25519_sha3_512
 
 // This code is a port of the public domain, “ref10” implementation of ed25519
 // from SUPERCOP.
@@ -18,12 +18,13 @@ package ed25519
 import (
 	"bytes"
 	"crypto"
-	"crypto/ed25519/internal/edwards25519"
 	cryptorand "crypto/rand"
 	"crypto/sha512"
 	"errors"
 	"io"
 	"strconv"
+
+	"github.com/nexzhu/go-ed25519-sha3-512/internal/edwards25519"
 )
 
 const (
