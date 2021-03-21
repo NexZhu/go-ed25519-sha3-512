@@ -111,7 +111,10 @@ func TestEqual(t *testing.T) {
 	}
 }
 
+// TODO: find new test data to replace testdata/sign.input.gz
 func TestGolden(t *testing.T) {
+	t.Skip("TODO: find new test data to replace testdata/sign.input.gz")
+
 	// sign.input.gz is a selection of test cases from
 	// https://ed25519.cr.yp.to/python/sign.input
 	testDataZ, err := os.Open("testdata/sign.input.gz")

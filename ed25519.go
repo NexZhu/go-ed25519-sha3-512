@@ -19,10 +19,11 @@ import (
 	"bytes"
 	"crypto"
 	cryptorand "crypto/rand"
-	"crypto/sha512"
 	"errors"
 	"io"
 	"strconv"
+
+	"golang.org/x/crypto/sha3"
 
 	"github.com/nexzhu/go-ed25519-sha3-512/internal/edwards25519"
 )
@@ -129,7 +130,7 @@ func newKeyFromSeed(privateKey, seed []byte) {
 		panic("ed25519: bad seed length: " + strconv.Itoa(l))
 	}
 
-	digest := sha512.Sum512(seed)
+	digest := sha3.Sum512(seed)
 	digest[0] &= 248
 	digest[31] &= 127
 	digest[31] |= 64
@@ -160,7 +161,7 @@ func sign(signature, privateKey, message []byte) {
 		panic("ed25519: bad private key length: " + strconv.Itoa(l))
 	}
 
-	h := sha512.New()
+	h := sha3.New512()
 	h.Write(privateKey[:32])
 
 	var digest1, messageDigest, hramDigest [64]byte
@@ -219,7 +220,7 @@ func Verify(publicKey PublicKey, message, sig []byte) bool {
 	edwards25519.FeNeg(&A.X, &A.X)
 	edwards25519.FeNeg(&A.T, &A.T)
 
-	h := sha512.New()
+	h := sha3.New512()
 	h.Write(sig[:32])
 	h.Write(publicKey[:])
 	h.Write(message)
