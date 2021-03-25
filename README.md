@@ -5,7 +5,7 @@ modified to use **SHA3-512** hash function instead of **SHA-512** used in the or
 
 ## Usage
 
-See [godoc](https://pkg.go.dev/github.com/nexzhu/go-ed25519-sha3-512).
+See [godoc](https://pkg.go.dev/github.com/crpt/go-ed25519-sha3-512).
 
 If you're using [crypto/ed25519](https://pkg.go.dev/crypto/ed25519) package, just replace:
 
@@ -16,7 +16,7 @@ import "crypto/ed25519"
 with:
 
 ```go
-import ed25519 "github.com/nexzhu/go-ed25519-sha3-512"
+import ed25519 "github.com/crpt/go-ed25519-sha3-512"
 ```
 
 and you're good to go.

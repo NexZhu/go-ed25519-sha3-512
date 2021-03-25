@@ -25,7 +25,7 @@ import (
 
 	"golang.org/x/crypto/sha3"
 
-	"github.com/nexzhu/go-ed25519-sha3-512/internal/edwards25519"
+	"github.com/crpt/go-ed25519-sha3-512/internal/edwards25519"
 )
 
 const (
