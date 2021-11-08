@@ -20,9 +20,8 @@ import (
 	"io"
 	"strconv"
 
+	"filippo.io/edwards25519"
 	"golang.org/x/crypto/sha3"
-
-	"github.com/crpt/go-ed25519-sha3-512/internal/edwards25519"
 )
 
 const (
@@ -128,7 +127,7 @@ func newKeyFromSeed(privateKey, seed []byte) {
 	}
 
 	h := sha3.Sum512(seed)
-	s := edwards25519.NewScalar().SetBytesWithClamping(h[:32])
+	s, _ := edwards25519.NewScalar().SetBytesWithClamping(h[:32])
 	A := (&edwards25519.Point{}).ScalarBaseMult(s)
 
 	publicKey := A.Bytes()
@@ -154,7 +153,7 @@ func sign(signature, privateKey, message []byte) {
 	seed, publicKey := privateKey[:SeedSize], privateKey[SeedSize:]
 
 	h := sha3.Sum512(seed)
-	s := edwards25519.NewScalar().SetBytesWithClamping(h[:32])
+	s, _ := edwards25519.NewScalar().SetBytesWithClamping(h[:32])
 	prefix := h[32:]
 
 	mh := sha3.New512()
@@ -162,7 +161,7 @@ func sign(signature, privateKey, message []byte) {
 	mh.Write(message)
 	messageDigest := make([]byte, 0, mh.Size())
 	messageDigest = mh.Sum(messageDigest)
-	r := edwards25519.NewScalar().SetUniformBytes(messageDigest)
+	r, _ := edwards25519.NewScalar().SetUniformBytes(messageDigest)
 
 	R := (&edwards25519.Point{}).ScalarBaseMult(r)
 
@@ -172,7 +171,7 @@ func sign(signature, privateKey, message []byte) {
 	kh.Write(message)
 	hramDigest := make([]byte, 0, kh.Size())
 	hramDigest = kh.Sum(hramDigest)
-	k := edwards25519.NewScalar().SetUniformBytes(hramDigest)
+	k, _ := edwards25519.NewScalar().SetUniformBytes(hramDigest)
 
 	S := edwards25519.NewScalar().MultiplyAdd(k, s, r)
 
@@ -202,7 +201,7 @@ func Verify(publicKey PublicKey, message, sig []byte) bool {
 	kh.Write(message)
 	hramDigest := make([]byte, 0, kh.Size())
 	hramDigest = kh.Sum(hramDigest)
-	k := edwards25519.NewScalar().SetUniformBytes(hramDigest)
+	k, _ := edwards25519.NewScalar().SetUniformBytes(hramDigest)
 
 	S, err := edwards25519.NewScalar().SetCanonicalBytes(sig[32:])
 	if err != nil {
